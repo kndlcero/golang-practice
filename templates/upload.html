@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload File</title>
+    <link rel="stylesheet" type="text/css" href="/static/upload.css">
+    <style>
+        nav {
+            display: flex;
+            justify-content: flex-start;
+            padding: 10px 20px;
+            background-color: #f8f9fa;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #0056b3;
+            font-weight: bold;
+            margin-right: 15px;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #003f91;
+        }
+    </style>
+    <script>
+        // JavaScript function to handle dynamic population of the course dropdown
+        function updateCourseDropdown() {
+            const collegeDropdown = document.getElementById("college");
+            const courseDropdown = document.getElementById("course");
+
+            // Mapping of colleges to courses
+            const collegeToCoursesMap = {
+                OUS: ["BSENTREP", "BABR", "BSBAHRM", "BSBAMM", "BSOA", "BSTM", "BPA"],
+                CAF: ["BSA", "BSMA", "BSBAFM"],
+                CADBE: ["BS-ARCH", "BSID", "BSEP"],
+                CAL: ["ABE", "ABF", "ABPHILO", "ABTA"],
+                CBA: ["BSBA-MM", "BSBA-HRDM", "BSEntrep", "BSOA"],
+                COC: ["BAPR", "ABJ", "BA Broadcasting", "ABCR"],
+                CCIS: ["BSCS", "BSIT"],
+                COED: ["BTLEd", "BLIS", "BSEd", "BEEd", "BECEd"],
+                CE: ["BSCE", "BSCpE", "BSEE", "BSECE", "BSIE", "BSME", "BSRE"],
+                CHK: ["BPE"],
+                CPSPA: ["BAPS", "BAPE", "BAIS", "BPA"],
+                CSSD: ["BC", "ABH", "BSE", "BSPSY", "BSS"],
+                CS: ["BAS", "BSAM", "BSBIO", "BSCHEM", "BSFT", "BSM", "BSND", "BSP"],
+                CTHTM: ["BSTM", "BTM", "BSHM"]
+            };
+
+            const selectedCollege = collegeDropdown.value;
+
+            // Clear the course dropdown
+            courseDropdown.innerHTML = '<option value="" disabled selected>Select a course</option>';
+
+            if (selectedCollege) {
+                // Populate the course dropdown with relevant options
+                collegeToCoursesMap[selectedCollege].forEach(course => {
+                    const option = document.createElement("option");
+                    option.value = course;
+                    option.textContent = course;
+                    courseDropdown.appendChild(option);
+                });
+
+                // Enable the course dropdown
+                courseDropdown.disabled = false;
+            } else {
+                // Disable the course dropdown if no college is selected
+                courseDropdown.disabled = true;
+            }
+        }
+    </script>
+</head>
+<body>
+    <nav>
+        <a href="/" class="return-home">Return to Home</a>
+    </nav>
+    <main>
+        <h1>Upload a File</h1>
+
+        <!-- Display success message -->
+        {{ if .Success }}
+        <div class="success-message">
+            File uploaded successfully!
+        </div>
+        {{ end }}
+
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <div>
+                <label for="title">Title:</label>
+                <input type="text" name="title" id="title" placeholder="Enter file title" required>
+            </div>
+            <div>
+                <label for="description">Description:</label>
+                <textarea name="description" id="description" placeholder="Enter file description" required></textarea>
+            </div>
+            <div>
+                <label for="college">College:</label>
+                <select name="college" id="college" onchange="updateCourseDropdown()" required>
+                    <option value="" disabled selected>Select a college</option>
+                    <option value="OUS">OUS</option>
+                    <option value="CAF">CAF</option>
+                    <option value="CADBE">CADBE</option>
+                    <option value="CAL">CAL</option>
+                    <option value="CBA">CBA</option>
+                    <option value="COC">COC</option>
+                    <option value="CCIS">CCIS</option>
+                    <option value="COED">COED</option>
+                    <option value="CE">CE</option>
+                    <option value="CHK">CHK</option>
+                    <option value="CPSPA">CPSPA</option>
+                    <option value="CSSD">CSSD</option>
+                    <option value="CS">CS</option>
+                    <option value="CTHTM">CTHTM</option>
+                </select>
+            </div>
+            <div>
+                <label for="course">Course:</label>
+                <select name="course" id="course" disabled required>
+                    <option value="" disabled selected>Select a course</option>
+                </select>
+            </div>
+            <div>
+                <label for="file-upload">Attach a file:</label>
+                <input type="file" name="file" id="file-upload" required>
+            </div>
+            <div>
+                <button type="submit">Upload File</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

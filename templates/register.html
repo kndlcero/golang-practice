@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Register</title>
+        <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    </head>
+    <body>
+        <main>
+            <h1>Register</h1>
+
+            {{ if . }}
+            <div class="error">{{ . }}</div>
+            {{ end }}
+
+            <form method="POST">
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" id="email" required>
+                </div>
+                <div>
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" id="username" required>
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" id="password" required>
+                </div>
+                <div>
+                    <button type="submit">Register</button>
+                </div>
+            </form>
+
+            <div class="login-section">
+                <p>Already have an account?</p>
+                <a href="/login">Login here</a>
+            </div>
+        </main>
+    </body>
+</html>
